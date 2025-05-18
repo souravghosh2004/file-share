@@ -1,0 +1,26 @@
+{
+  "name": "file_upload",
+  "version": "1.0.0",
+  "description": "A simple file sharing app with code-based access and preview support.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "file-upload",
+    "express",
+    "preview",
+    "file-sharing"
+  ],
+  "author": "Sourav",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mime": "^2.4.6",
+    "multer": "^1.4.5-lts.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

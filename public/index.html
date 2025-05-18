@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Upload File</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom max-width for larger desktops */
+    @media(min-width:1024px) {
+      .max-w-md {
+        max-width: 600px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+  <div class="bg-white p-6 sm:p-8 rounded shadow-lg w-full max-w-md lg:max-w-lg text-center">
+    <h1 class="text-2xl sm:text-3xl font-bold mb-4">📤 Upload a File</h1>
+    <form id="uploadForm" enctype="multipart/form-data" class="space-y-5">
+      <h2 class="text-xl sm:text-2xl font-semibold mb-2">📁 Choose a file to upload</h2>
+      <p class="text-gray-600 text-sm sm:text-base mb-4">
+        After uploading, you’ll receive a <strong>6-digit access code</strong>. 
+        Share this code to allow others to preview or download the file.<br />
+        ⚠️ <em>Please save this code safely — if lost, the file cannot be recovered.</em>
+      </p>
+
+      <input
+        id="fileInput"
+        type="file"
+        name="file"
+        required
+        class="w-full border rounded px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button
+        type="submit"
+        class="bg-blue-500 text-white px-4 py-3 rounded w-full hover:bg-blue-600 text-sm sm:text-base font-semibold transition"
+      >
+        Upload
+      </button>
+    </form>
+
+    <div id="codeDisplay" class="mt-5 text-green-600 text-lg sm:text-xl font-semibold break-words"></div>
+
+    <a
+      href="/download.html"
+      class="block mt-8 text-blue-600 underline hover:text-blue-800 text-sm sm:text-base"
+    >
+      Go to download page
+    </a>
+  </div>
+
+  <script>
+    const form = document.getElementById("uploadForm");
+    const codeDisplay = document.getElementById("codeDisplay");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      codeDisplay.textContent = "Uploading...";
+      const formData = new FormData(form);
+      try {
+        const res = await fetch("/upload", { method: "POST", body: formData });
+        const data = await res.json();
+
+        if (res.ok) {
+          const code = data.code;
+          codeDisplay.innerHTML = `
+            ✅ Upload complete! Your file code: <strong>${code}</strong><br>
+            Share this code with others to download or preview your file.
+          `;
+          form.reset();
+        } else {
+          codeDisplay.textContent = data.error || "Upload failed, please try again.";
+        }
+      } catch (err) {
+        codeDisplay.textContent = "Network error, please try again.";
+      }
+    });
+  </script>
+</body>
+</html>

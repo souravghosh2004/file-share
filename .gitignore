@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+
+# Uploaded files
+uploads/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Optional: if using Render or similar, ignore local-only config
+render.yaml
